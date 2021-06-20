@@ -1,0 +1,99 @@
+//normalize import from node_modules
+@import "../../node_modules/normalize.css/normalize";
+
+.is-hide {
+	display: none;
+}
+
+nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+}
+
+.form-field-row {
+	display: flex;
+	margin: 20px 0;
+}
+
+.form-field-row-variant-1 {
+	justify-content: space-between;
+}
+
+.form-field-row-variant-2 {
+	justify-content: right;
+}
+
+main {
+	width: 1024px;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+img {
+	max-width: 100%;
+}
+
+.products article {
+	display: flex;
+}
+
+.products article > div:first-child {
+	flex: 1;
+	padding-right: 25px;
+}
+
+.products article > div:nth-child(2) {
+	flex-basis: 25%;
+	flex-grow: 1;
+}
+
+.products article > div:last-child {
+	margin-left: auto;
+	text-align: right;
+}
+
+.pagination ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+}
+
+.pagination li {
+	border: 1px solid black;
+}
+
+.pagination a {
+	display: block;
+	padding: 12px;
+}
+
+.compare > div {
+	display: flex;
+	justify-content: space-around;
+}
+
+.compare article {
+	background-color: aliceblue;
+	padding: 25px;
+}
+
+.compare article {
+	flex-basis: 33.33%;
+}
+
+.compare article > div:first-child {
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+.color {
+	display: inline-block;
+	margin-left: 7px;
+	width: 20px;
+	height: 20px;
+	position: relative;
+	top: 5px;
+}
