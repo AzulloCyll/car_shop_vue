@@ -7,7 +7,8 @@ const app = new Vue({
 		return {
 			api: "http://localhost:3000/products",
 			products: [],
-			padActivated: "products" //tutaj przechowuje dane o tym, która zakładka jest otwarta | default: products
+			padActivated: "products", //tutaj przechowuje dane o tym, która zakładka jest otwarta | default: products
+			isDataLoading: true,
 		};
 	},
 	created() {
@@ -15,9 +16,14 @@ const app = new Vue({
 	},
 	methods: {
 		getProducts() {
-			axios.get(this.api).then((response) => {
-				this.products = response.data;
-			});
+			axios
+				.get(this.api)
+				.then((response) => {
+					this.products = response.data;
+					this.isDataLoading = false; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
+					// (dzięki temu unikam błedów wynikająchych z asynchronicznego pobierania danych)
+				})
+				.catch((err) => console.error(err));
 		},
 		setColor(productColor) {
 			return {
