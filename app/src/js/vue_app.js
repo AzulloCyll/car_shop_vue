@@ -15,7 +15,7 @@ const app = new Vue({
 			specialParam: false, //parametr używany do obsługi produktów specjalnych
 			searchValue: "",
 			buttonDisabled: true, //wyłącza przyciask szukaj gdy jest za mało znaków
-			isNothingSearched: false, //obsługuje error gdy brak wynikjów wyszukiwania
+			isNothingSearched: false, //obsługuje error gdy brak wyników wyszukiwania
 		};
 	},
 	created() {
