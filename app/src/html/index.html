@@ -81,12 +81,12 @@
                 </div>
                 <div class="form-field-row form-field-row-variant-2">
                     <span>Sortuj wg. ceny: </span>
-                    <button type="button">malejąco</button>
-                    <button type="button">rosnąco</button>
+                    <button type="button" @click="sortProducts('desc')">malejąco</button>
+                    <button type="button" @click="sortProducts('asc')">rosnąco</button>
                 </div>
                 <div>
                     <hr />
-                    <template v-for="product of products">
+                    <template v-for="product of filteredProducts">
                         <article v-bind:style="specialProductColorChange(product.special)">
                             <div>
                                 <img src="https://via.placeholder.com/350x240" alt="Obrazek" />
@@ -104,6 +104,7 @@
                                     v-bind:style="setColor(product.color)"></span>
                             </div>
                             <div>
+                                <!-- v-bind:class jeśli product.special === true -->
                                 <button class="button" type="button" v-bind:class="{ special: product.special }">
                                     Dodaj do porównania</button>
                                 <br />
