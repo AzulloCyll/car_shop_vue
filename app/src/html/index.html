@@ -16,17 +16,17 @@
             <ul>
                 <li>
                     <button type="button" @click="padsHandler('products')"
-                        :class="{ padActive: padActivated === 'products' }">
+                        :class="{ active: padActivated === 'products' }">
                         Lista produktów
                     </button>
-                    <!-- bind klasy padActive, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActive -->
+                    <!-- bind klasy active, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActive -->
                 </li>
                 <li>
                     <button type="button" @click="padsHandler('compare')"
-                        :class="{ padActive: padActivated === 'compare' }">
+                        :class="{ active: padActivated === 'compare' }">
                         Porównywarka
                     </button>
-                    <!-- bind klasy padActive, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActive -->
+                    <!-- bind klasy active, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActive -->
                 </li>
             </ul>
         </nav>
@@ -87,7 +87,7 @@
                 <div>
                     <hr />
                     <template v-for="product of products">
-                        <article v-bind:style="setSpecialProductColor(product.special)">
+                        <article v-bind:style="specialProductColorChange(product.special)">
                             <div>
                                 <img src="https://via.placeholder.com/350x240" alt="Obrazek" />
                             </div>
@@ -104,7 +104,7 @@
                                     v-bind:style="setColor(product.color)"></span>
                             </div>
                             <div>
-                                <button class="button" type="button" :class="{ special: specialParam === true }">
+                                <button class="button" type="button" v-bind:class="{ special: product.special }">
                                     Dodaj do porównania</button>
                                 <br />
                                 <div>

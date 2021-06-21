@@ -31,16 +31,14 @@ const app = new Vue({
 				"background-color": productColor,
 			};
 		},
-		setSpecialProductColor(productSpecial) {
-			if (productSpecial) {
-				this.specialParam = true; //na podstawie zmiennej specalParam określam kolor buttona
+		specialProductColorChange(isSpecial) {
+			if (isSpecial) {
 				return {
-					backgroundColor: "#e4f2ff", //dodaje do zbindowanego stylu kolor
+					"background-color": "#f2ede7",
 				};
-			} else {
-				this.specialParam = false;
 			}
 		},
+
 		//zmienia daną: padActivated, w zależności od tego, który przycisk został kliknięty
 		padsHandler(param) {
 			this.padActivated = param;
