@@ -7,6 +7,7 @@ const app = new Vue({
 		return {
 			api: "http://localhost:3000/products",
 			products: [],
+			padActivated: "products" //tutaj przechowuje dane o tym, która zakładka jest otwarta | default: products
 		};
 	},
 	created() {
@@ -22,6 +23,10 @@ const app = new Vue({
 			return {
 				"background-color": productColor,
 			};
+		},
+		//zmienia daną: padActivated, w zależności od tego, który przycisk został kliknięty
+		padsHandler(param) {
+			this.padActivated = param;
 		},
 	},
 });

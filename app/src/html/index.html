@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../css/index.scss">
+    <link rel="stylesheet" href="../css/index.scss" />
 </head>
 
 <body>
@@ -15,22 +15,30 @@
         <nav>
             <ul>
                 <li>
-                    <button type="button">Lista produktów</button>
+                    <button type="button" @click="padsHandler('products')"
+                        :class="{ padActive: padActivated === 'products' }">
+                        Lista produktów
+                    </button>
+                    <!-- bind klasy padActive, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActive -->
                 </li>
                 <li>
-                    <button type="button">Porównywarka</button>
+                    <button type="button" @click="padsHandler('compare')"
+                        :class="{ padActive: padActivated === 'compare' }">
+                        Porównywarka
+                    </button>
+                    <!-- bind klasy padActive, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActive -->
                 </li>
             </ul>
         </nav>
-        <section class="products">
+        <section v-if="padActivated === 'products'" class="products">
             <h2>Lista produktów</h2>
             <div>
-                <hr>
+                <hr />
                 <form>
                     <div class="form-field-row">
                         <label for="field-search">Wyszukiwarka:</label>
                         <input type="search" name="field-search" id="field-search"
-                            placeholder="Podaj nazwę produktu lub model">
+                            placeholder="Podaj nazwę produktu lub model" />
                         <button type="submit">Szukaj</button>
                     </div>
                     <div class="form-field-row form-field-row-variant-1">
@@ -45,27 +53,27 @@
                         </div>
                         <div>
                             <label for="field-price-from">Cena od:</label>
-                            <input type="text" name="field-price-from" id="field-price-from">
+                            <input type="text" name="field-price-from" id="field-price-from" />
                             <label for="field-price-from">Cena do:</label>
-                            <input type="text" name="field-price-to" id="field-price-to">
+                            <input type="text" name="field-price-to" id="field-price-to" />
                         </div>
                     </div>
                     <div class="form-field-row">
                         <div>
                             <label for="field-color-1">Kolor 1</label>
-                            <input type="checkbox" name="field-color-1" id="field-color-1">
+                            <input type="checkbox" name="field-color-1" id="field-color-1" />
                         </div>
                         <div>
                             <label for="field-color-2">Kolor 2</label>
-                            <input type="checkbox" name="field-color-2" id="field-color-2">
+                            <input type="checkbox" name="field-color-2" id="field-color-2" />
                         </div>
                         <div>
                             <label for="field-color-3">Kolor 3</label>
-                            <input type="checkbox" name="field-color-3" id="field-color-3">
+                            <input type="checkbox" name="field-color-3" id="field-color-3" />
                         </div>
                     </div>
                 </form>
-                <hr>
+                <hr />
             </div>
             <div class="form-field-row form-field-row-variant-2">
                 <span>Sortuj wg. ceny: </span>
@@ -73,40 +81,39 @@
                 <button type="button">rosnąco</button>
             </div>
             <div>
-                <hr>
+                <hr />
                 <template v-for="product of products">
                     <article>
-
                         <div>
-                            <img src="https://via.placeholder.com/350x240" alt="Obrazek">
+                            <img src="https://via.placeholder.com/350x240" alt="Obrazek" />
                         </div>
                         <div>
                             <h3>{{product.name}}</h3>
-                            <br>
+                            <br />
                             <small>Model produktu: <em>{{product.model}}</em></small>
-                            <br>
-                            <br>
+                            <br />
+                            <br />
                             <strong>Marka: <span>{{product.brand}}</span></strong>
-                            <br>
-                            <br>
-                            Kolor: <span >{{product.color}}</span><span class="color" v-bind:style="setColor(product.color)"></span>
+                            <br />
+                            <br />
+                            Kolor: <span>{{product.color}}</span><span class="color"
+                                v-bind:style="setColor(product.color)"></span>
                         </div>
                         <div>
                             <button type="button">Dodaj do porównania</button>
-                            <br>
+                            <br />
                             <div>
-                                <span>{{product.price}}</span><br>
-                                
-                                <span>{{}}</span>
+                                <span>{{product.price}}</span><br />
+
+                                <span>{{(Math.round(100 * product.price * 1.23)/100)}}</span>
                             </div>
                         </div>
                     </article>
-                    <hr>
+                    <hr />
                 </template>
-
             </div>
             <div>
-                <hr>
+                <hr />
                 <nav class="pagination">
                     <ul>
                         <li>
@@ -128,41 +135,42 @@
                 </nav>
             </div>
         </section>
-        <section class="compare is-hide">
+        <section v-if="padActivated === 'compare'" class="compare">
             <h2>Porównywarka</h2>
-            <hr>
+            <hr />
             <div>
                 <article>
                     <div>
                         <button type="button">Usuń z porównania</button>
                     </div>
                     <div>
-                        <img src="https://via.placeholder.com/350x240" alt="Obrazek">
+                        <img src="https://via.placeholder.com/350x240" alt="Obrazek" />
                     </div>
                     <div>
                         <h3>Nazwa produktu</h3>
-                        <br>
+                        <br />
                         <small>Model produktu: <em>Abc</em>, <em>123</em></small>
-                        <br>
-                        <br>
+                        <br />
+                        <br />
                         <strong>Marka: <span>XYZ</span></strong>
                     </div>
                     <div>
                         <div>
-                            <hr>
-                            <span>100,00 zł netto</span><br>
+                            <hr />
+                            <span>100,00 zł netto</span><br />
                             <span>123,00 zł brutto</span>
                         </div>
                         <div>
-                            <hr>
+                            <hr />
                             <h4>Opis</h4>
                             <p>
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus inventore
-                                molestiae ad reprehenderit facilis, labore facere. Voluptate et eos, ab hic repellat
-                                dolores in beatae dolore praesentium, quia sunt eum!
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                Voluptatibus inventore molestiae ad reprehenderit facilis,
+                                labore facere. Voluptate et eos, ab hic repellat dolores in
+                                beatae dolore praesentium, quia sunt eum!
                             </p>
-                            <br>
-                            <br>
+                            <br />
+                            <br />
                             <strong>Kolor: <span>Kolor 1</span></strong>
                         </div>
                     </div>
@@ -172,33 +180,33 @@
                         <button type="button">Usuń z porównania</button>
                     </div>
                     <div>
-                        <img src="https://via.placeholder.com/350x240" alt="Obrazek">
+                        <img src="https://via.placeholder.com/350x240" alt="Obrazek" />
                     </div>
                     <div>
                         <h3>Nazwa produktu</h3>
-                        <br>
-                        <small>Model produktu: <em>Abc</em>,
-                            <em>123</em></small>
-                        <br>
-                        <br>
+                        <br />
+                        <small>Model produktu: <em>Abc</em>, <em>123</em></small>
+                        <br />
+                        <br />
                         <strong>Marka: <span>XYZ</span></strong>
                     </div>
                     <div>
                         <div>
-                            <hr>
-                            <span>100,00 zł netto</span><br>
+                            <hr />
+                            <span>100,00 zł netto</span><br />
                             <span>123,00 zł brutto</span>
                         </div>
                         <div>
-                            <hr>
+                            <hr />
                             <h4>Opis</h4>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde earum minus
-                                exercitationem nostrum dolorum magni, voluptate totam aliquid sed, ut, enim
-                                repellendus numquam eaque laborum porro maxime esse dicta officia.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
+                                earum minus exercitationem nostrum dolorum magni, voluptate
+                                totam aliquid sed, ut, enim repellendus numquam eaque laborum
+                                porro maxime esse dicta officia.
                             </p>
-                            <br>
-                            <br>
+                            <br />
+                            <br />
                             <strong>Kolor: <span>Kolor 1</span></strong>
                         </div>
                     </div>

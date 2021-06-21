@@ -59,6 +59,7 @@ img {
 	padding: 0;
 	list-style: none;
 	display: flex;
+	margin-bottom: 20px;
 }
 
 .pagination li {
@@ -68,6 +69,7 @@ img {
 .pagination a {
 	display: block;
 	padding: 12px;
+	text-decoration: none;
 }
 
 .compare > div {
@@ -96,4 +98,11 @@ img {
 	height: 20px;
 	position: relative;
 	top: 5px;
+}
+
+.padActive {
+	color: white;
+	background-color: black;
+	border: 2px solid black;
+	border-radius: 3px;
 }
