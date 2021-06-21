@@ -107,9 +107,8 @@
                                 <button type="button">Dodaj do porównania</button>
                                 <br />
                                 <div>
-                                    <span>{{product.price}}</span><br />
-
-                                    <span>{{(Math.round(100 * product.price * 1.23)/100)}}</span>
+                                    <span>{{product.price.toFixed(2)}} netto</span><br />
+                                    <span>{{((Math.round(100 * product.price * 1.23)/100)).toFixed(2)}} brutto</span>
                                 </div>
                             </div>
                         </article>
