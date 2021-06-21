@@ -9,6 +9,7 @@ const app = new Vue({
 			products: [],
 			padActivated: "products", //tutaj przechowuje dane o tym, która zakładka jest otwarta | default: products
 			isDataLoading: true,
+			specialParam: false,
 		};
 	},
 	created() {
@@ -29,6 +30,16 @@ const app = new Vue({
 			return {
 				"background-color": productColor,
 			};
+		},
+		setSpecialProductColor(productSpecial) {
+			if (productSpecial) {
+				this.specialParam = true; //na podstawie zmiennej specalParam określam kolor buttona
+				return {
+					backgroundColor: "#e4f2ff", //dodaje do zbindowanego stylu kolor
+				};
+			} else {
+				this.specialParam = false;
+			}
 		},
 		//zmienia daną: padActivated, w zależności od tego, który przycisk został kliknięty
 		padsHandler(param) {

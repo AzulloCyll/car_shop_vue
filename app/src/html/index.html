@@ -87,7 +87,7 @@
                 <div>
                     <hr />
                     <template v-for="product of products">
-                        <article>
+                        <article v-bind:style="setSpecialProductColor(product.special)">
                             <div>
                                 <img src="https://via.placeholder.com/350x240" alt="Obrazek" />
                             </div>
@@ -104,7 +104,8 @@
                                     v-bind:style="setColor(product.color)"></span>
                             </div>
                             <div>
-                                <button type="button">Dodaj do porównania</button>
+                                <button class="button" type="button" :class="{ special: specialParam === true }">
+                                    Dodaj do porównania</button>
                                 <br />
                                 <div>
                                     <span>{{product.price.toFixed(2)}} netto</span><br />
