@@ -41,9 +41,9 @@
                     <form>
                         <div class="form-field-row">
                             <label for="field-search">Wyszukiwarka:</label>
-                            <input type="search" name="field-search" id="field-search"
-                                placeholder="Podaj nazwę produktu lub model" />
-                            <button type="submit">Szukaj</button>
+                            <input v-on:input="searchButtonHandler" v-model="searchValue" type="search"
+                                name="field-search" id="field-search" placeholder="Podaj nazwę produktu lub model" />
+                            <button @click.prevent="search" type="submit" :disabled="buttonDisabled">Szukaj</button>
                         </div>
                         <div class="form-field-row form-field-row-variant-1">
                             <div>
@@ -81,12 +81,17 @@
                 </div>
                 <div class="form-field-row form-field-row-variant-2">
                     <span>Sortuj wg. ceny: </span>
-                    <button type="button" @click="sortProducts('desc')">malejąco</button>
-                    <button type="button" @click="sortProducts('asc')">rosnąco</button>
+                    <button type="button" @click="sortProducts('desc')"
+                        :class="{ active : sortDirection === 'desc' }">malejąco</button>
+                    <button type="button" @click="sortProducts('asc')"
+                        :class="{ active : sortDirection === 'asc' }">rosnąco</button>
                 </div>
                 <div>
                     <hr />
-                    <template v-for="product of filteredProducts">
+                    <template v-if="isNothingSearched">
+                        <div class="search-error">Nie znaleziono produktów dla frazy: "{{searchValue}}"</div>
+                    </template>
+                    <template v-for="product in filteredProducts">
                         <article v-bind:style="specialProductColorChange(product.special)">
                             <div>
                                 <img src="https://via.placeholder.com/350x240" alt="Obrazek" />
@@ -110,7 +115,8 @@
                                 <br />
                                 <div>
                                     <span>{{product.price.toFixed(2)}} netto</span><br />
-                                    <span>{{((Math.round(100 * product.price * 1.23)/100)).toFixed(2)}} brutto</span>
+                                    <span>{{((Math.round(100 * product.price * 1.23)/100)).toFixed(2)}}
+                                        brutto</span>
                                 </div>
                             </div>
                         </article>
@@ -118,7 +124,7 @@
                     </template>
                 </div>
                 <div>
-                    <hr />
+
                     <nav class="pagination">
                         <ul>
                             <li>

@@ -111,11 +111,13 @@ button {
 	border-radius: 3px;
 }
 
-.loader {
+.loader,
+.search-error {
 	text-align: center;
 	font-weight: bold;
 	font-size: 3em;
 	margin-top: 150px;
+	margin-bottom: 150px;
 }
 
 .special {
