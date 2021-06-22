@@ -1,32 +1,32 @@
-import Vue from "vue/dist/vue";
-import axios from "axios";
-import parse from "parse-link-header";
+import Vue from 'vue/dist/vue';
+import axios from 'axios';
+import parse from 'parse-link-header';
 
 const app = new Vue({
-	el: "#app",
+	el: '#app',
 	data() {
 		return {
-			apiAll: "http://localhost:3000/products",
-			api: "http://localhost:3000/products/?_limit=4&_page=1", // do paginacji
+			apiAll: 'http://localhost:3000/products',
+			api: 'http://localhost:3000/products/?_limit=4&_page=1', // do paginacji
 			products: [], //produkty pobrane z jason-server
 			filteredProducts: [], //produkty wyswietlane dynamicznie
 			allProducts: [],
-			padActivated: "products", //tutaj przechowuje dane o tym, która zakładka jest otwarta | default: products
-			sortDirection: "", // to samo do sortowania
+			padActivated: 'products', //tutaj przechowuje dane o tym, która zakładka jest otwarta | default: products
+			sortDirection: '', // to samo do sortowania
 			isDataLoading: true, // do loadera
 			specialParam: false, //parametr używany do obsługi produktów specjalnych
-			searchValue: "",
+			searchValue: '',
 			buttonDisabled: true, //wyłącza przyciask szukaj gdy jest za mało znaków
 			isNothingSearched: false, //obsługuje error gdy brak wyników wyszukiwania
 			// poniżej zmienne do paginacji
-			unparsedHeadersLink: "",
+			unparsedHeadersLink: '',
 			parsedHeadersLink: {},
 			nextActive: false,
 			prevActive: false,
 			pageSelected: 1,
 			//zmienne do sortowania po cenie
-			priceFrom: "0",
-			priceTo: "0",
+			priceFrom: '0',
+			priceTo: '0',
 		};
 	},
 	created() {
@@ -49,9 +49,11 @@ const app = new Vue({
 					this.parsedHeadersLink = parse(this.unparsedHeadersLink);
 					this.products = response.data;
 					this.filteredProducts = this.products.slice(); //kopia tablicy
-					this.isDataLoading = false;; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
+					this.isDataLoading = false; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
 					// (dzięki temu unikam błedów wynikająchych z asynchronicznego pobierania danych)
-				})
+				}).then((response => {
+					console.log(response);
+				}))
 				.catch((err) => console.error(err));
 			//drugie zapytanie potzebne do filtrów - dzięki temu będą wyszukiwać we wszystkich produktach
 			axios.get(this.apiAll).then((response) => {
@@ -60,28 +62,24 @@ const app = new Vue({
 		},
 		setColor(productColor) {
 			return {
-				"background-color": productColor,
+				'background-color': productColor,
 			};
 		},
 		specialProductColorChange(isSpecial) {
 			if (isSpecial) {
 				return {
-					"background-color": "#f2ede7",
+					'background-color': '#f2ede7',
 				};
 			}
 		},
 		sortProducts(sortDirection) {
 			this.sortDirection = sortDirection;
 			switch (sortDirection) {
-				case "desc":
-					this.filteredProducts = this.filteredProducts.sort((a, b) =>
-						a.price < b.price ? 1 : -1
-					);
+				case 'desc':
+					this.filteredProducts = this.filteredProducts.sort((a, b) => a.price < b.price ? 1 : -1,);
 					break;
-				case "asc":
-					this.filteredProducts = this.filteredProducts.sort((a, b) =>
-						a.price > b.price ? 1 : -1
-					);
+				case 'asc':
+					this.filteredProducts = this.filteredProducts.sort((a, b) => a.price > b.price ? 1 : -1,);
 					break;
 			}
 		},
@@ -130,14 +128,14 @@ const app = new Vue({
 			this.getProducts();
 			this.pageSelected = parseInt($event.target.innerHTML);
 			//zmaina api resetuje sortowanie wg ceny więc deaktywuje wybrany filtr
-			this.sortDirection = "";
+			this.sortDirection = '';
 			this.prevActive = false;
 			this.nextActive = false;
 		},
 		nextPage() {
 			this.pageSelected += 1;
 			this.prevActive = false;
-			if (this.parsedHeadersLink.hasOwnProperty("next")) {
+			if (this.parsedHeadersLink.hasOwnProperty('next')) {
 				this.api = this.parsedHeadersLink.next.url;
 				this.getProducts();
 			} else {
@@ -147,7 +145,7 @@ const app = new Vue({
 		prevPage() {
 			this.pageSelected -= 1;
 			this.nextActive = false;
-			if (this.parsedHeadersLink.hasOwnProperty("prev")) {
+			if (this.parsedHeadersLink.hasOwnProperty('prev')) {
 				this.api = this.parsedHeadersLink.prev.url;
 				this.getProducts();
 			} else {
@@ -156,17 +154,17 @@ const app = new Vue({
 		},
 		priceFilter() {
 			if (this.priceTo < this.priceFrom) {
-				alert("Podałeś złe dane");
+				alert('Podałeś złe dane');
 				return -1;
 			}
 			this.filteredProducts = this.allProducts.slice();
-			this.filteredProducts = this.filteredProducts.filter(
-				(product) => {
-					if (product.price > this.priceFrom && product.price < this.priceTo) {
-						return { product };
-					}
+			this.filteredProducts = this.filteredProducts.filter((product) => {
+				if (product.price > this.priceFrom && product.price < this.priceTo) {
+					return {
+						product,
+					};
 				}
-			);
+			});
 		},
 	},
 });
