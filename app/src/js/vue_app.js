@@ -1,12 +1,13 @@
 import Vue from "vue/dist/vue";
 import axios from "axios";
+import parse from "parse-link-header";
 
 const app = new Vue({
 	el: "#app",
 	data() {
 		return {
-			api: "http://localhost:3000/products",
-			// api: "http://localhost:3000/products/?_limit=4&_page=1", // do paginacji
+			// api: "http://localhost:3000/products",
+			api: "http://localhost:3000/products/?_limit=4&_page=1", // do paginacji
 			products: [], //produkty pobrane z jason-server
 			filteredProducts: [], //produkty wyswietlane dynamicznie
 			padActivated: "products", //tutaj przechowuje dane o tym, która zakładka jest otwarta | default: products
@@ -16,7 +17,8 @@ const app = new Vue({
 			searchValue: "",
 			buttonDisabled: true, //wyłącza przyciask szukaj gdy jest za mało znaków
 			isNothingSearched: false, //obsługuje error gdy brak wyników wyszukiwania
-			unparsedHEaderLink: "",
+			unparsedHeadersLink: "",
+			parsedHeadersLink: {},
 		};
 	},
 	created() {
@@ -28,7 +30,9 @@ const app = new Vue({
 			axios
 				.get(this.api)
 				.then((response) => {
-					// this.unparsedHEaderLink = response.headers.link; // stąd mogę pobrać linki do paginacji
+					this.unparsedHeadersLink = response.headers.link; // stąd mogę pobrać linki do paginacji
+					//parsowanie response.headers.link do pliku JSON
+					this.parsedHeadersLink = parse(this.unparsedHeadersLink);
 					this.products = response.data;
 					this.filteredProducts = this.products.slice(); //kopia tablicy
 					this.isDataLoading = false; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
