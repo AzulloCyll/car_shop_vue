@@ -6,10 +6,11 @@ const app = new Vue({
 	el: "#app",
 	data() {
 		return {
-			// api: "http://localhost:3000/products",
+			apiAll: "http://localhost:3000/products",
 			api: "http://localhost:3000/products/?_limit=4&_page=1", // do paginacji
 			products: [], //produkty pobrane z jason-server
 			filteredProducts: [], //produkty wyswietlane dynamicznie
+			allProducts: [],
 			padActivated: "products", //tutaj przechowuje dane o tym, która zakładka jest otwarta | default: products
 			sortDirection: "", // to samo do sortowania
 			isDataLoading: true, // do loadera
@@ -17,11 +18,15 @@ const app = new Vue({
 			searchValue: "",
 			buttonDisabled: true, //wyłącza przyciask szukaj gdy jest za mało znaków
 			isNothingSearched: false, //obsługuje error gdy brak wyników wyszukiwania
+			// poniżej zmienne do paginacji
 			unparsedHeadersLink: "",
 			parsedHeadersLink: {},
 			nextActive: false,
 			prevActive: false,
 			pageSelected: 1,
+			//zmienne do sortowania po cenie
+			priceFrom: "0",
+			priceTo: "0",
 		};
 	},
 	created() {
@@ -32,6 +37,7 @@ const app = new Vue({
 			return parseInt(this.parsedHeadersLink.last._page);
 		},
 	},
+
 	methods: {
 		//pobiera produkty
 		getProducts() {
@@ -43,10 +49,14 @@ const app = new Vue({
 					this.parsedHeadersLink = parse(this.unparsedHeadersLink);
 					this.products = response.data;
 					this.filteredProducts = this.products.slice(); //kopia tablicy
-					this.isDataLoading = false; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
+					this.isDataLoading = false;; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
 					// (dzięki temu unikam błedów wynikająchych z asynchronicznego pobierania danych)
 				})
 				.catch((err) => console.error(err));
+			//drugie zapytanie potzebne do filtrów - dzięki temu będą wyszukiwać we wszystkich produktach
+			axios.get(this.apiAll).then((response) => {
+				this.allProducts = response.data;
+			});
 		},
 		setColor(productColor) {
 			return {
@@ -143,6 +153,20 @@ const app = new Vue({
 			} else {
 				this.prevActive = true;
 			}
+		},
+		priceFilter() {
+			if (this.priceTo < this.priceFrom) {
+				alert("Podałeś złe dane");
+				return -1;
+			}
+			this.filteredProducts = this.allProducts.slice();
+			this.filteredProducts = this.filteredProducts.filter(
+				(product) => {
+					if (product.price > this.priceFrom && product.price < this.priceTo) {
+						return { product };
+					}
+				}
+			);
 		},
 	},
 });

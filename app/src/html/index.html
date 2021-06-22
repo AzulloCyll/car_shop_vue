@@ -57,9 +57,11 @@
                             </div>
                             <div>
                                 <label for="field-price-from">Cena od:</label>
-                                <input type="text" name="field-price-from" id="field-price-from" />
+                                <input v-model="priceFrom" type="number" name="field-price-from"
+                                    id="field-price-from" />
                                 <label for="field-price-from">Cena do:</label>
-                                <input type="text" name="field-price-to" id="field-price-to" />
+                                <input v-model="priceTo" type="number" name="field-price-to" id="field-price-to" />
+                                <button type="button" @click="priceFilter">Filtruj</button>
                             </div>
                         </div>
                         <div class="form-field-row">
