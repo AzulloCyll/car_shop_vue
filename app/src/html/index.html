@@ -131,7 +131,8 @@
                                 <a @click.prevent="prevPage" href="">&lAarr;</a>
                             </li>
                             <li v-for="n of pages">
-                                <a @click.prevent="apiChange($event)" :href="api.slice(0, -1)+n">{{n}}</a>
+                                <a @click.prevent="apiChange($event)" :href="api.slice(0, -1)+n"
+                                    :class="{ activepage : pageSelected === n }">{{n}}</a>
                             </li>
                             <li :class="{inactive: nextActive === true}">
                                 <a @click.prevent="nextPage" href="">&rAarr;</a>

@@ -133,7 +133,16 @@ button {
 .inactive {
 	border: 1px solid lightgray !important;
 	a {
-		color: lightgray !important;
+		color: lightgray;
 		pointer-events: none;
 	}
+}
+
+a {
+	color: black;
+}
+
+.activepage {
+	background-color: black;
+	color: white;
 }
