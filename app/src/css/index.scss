@@ -129,3 +129,11 @@ button {
 .special:hover {
 	background-color: rgb(67, 139, 141);
 }
+
+.inactive {
+	border: 1px solid lightgray !important;
+	a {
+		color: lightgray !important;
+		pointer-events: none;
+	}
+}

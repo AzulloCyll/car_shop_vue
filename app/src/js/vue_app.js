@@ -19,10 +19,18 @@ const app = new Vue({
 			isNothingSearched: false, //obsługuje error gdy brak wyników wyszukiwania
 			unparsedHeadersLink: "",
 			parsedHeadersLink: {},
+			nextActive: false,
+			prevActive: false,
+			pageSelected: 1,
 		};
 	},
 	created() {
 		this.getProducts();
+	},
+	computed: {
+		pages() {
+			return parseInt(this.parsedHeadersLink.last._page);
+		},
 	},
 	methods: {
 		//pobiera produkty
@@ -105,6 +113,35 @@ const app = new Vue({
 				this.buttonDisabled = true;
 				this.isNothingSearched = false;
 				this.filteredProducts = this.products.slice();
+			}
+		},
+		apiChange($event) {
+			this.api = $event.target.href;
+			this.getProducts();
+			this.pageSelected = parseInt($event.target.innerHTML);
+			//zmaina api resetuje sortowanie wg ceny więc deaktywuje wybrany filtr
+			this.sortDirection = "";
+			this.prevActive = false;
+			this.nextActive = false;
+		},
+		nextPage() {
+			this.pageSelected += 1;
+			this.prevActive = false;
+			if (this.parsedHeadersLink.hasOwnProperty("next")) {
+				this.api = this.parsedHeadersLink.next.url;
+				this.getProducts();
+			} else {
+				this.nextActive = true;
+			}
+		},
+		prevPage() {
+			this.pageSelected -= 1;
+			this.nextActive = false;
+			if (this.parsedHeadersLink.hasOwnProperty("prev")) {
+				this.api = this.parsedHeadersLink.prev.url;
+				this.getProducts();
+			} else {
+				this.prevActive = true;
 			}
 		},
 	},

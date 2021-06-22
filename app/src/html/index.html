@@ -127,20 +127,14 @@
 
                     <nav class="pagination">
                         <ul>
-                            <li>
-                                <a href="">&lAarr;</a>
+                            <li :class="{inactive: prevActive === true}">
+                                <a @click.prevent="prevPage" href="">&lAarr;</a>
                             </li>
-                            <li>
-                                <a href="">1</a>
+                            <li v-for="n of pages">
+                                <a @click.prevent="apiChange($event)" :href="api.slice(0, -1)+n">{{n}}</a>
                             </li>
-                            <li>
-                                <a href="">2</a>
-                            </li>
-                            <li>
-                                <a href="">3</a>
-                            </li>
-                            <li>
-                                <a href="">&rAarr;</a>
+                            <li :class="{inactive: nextActive === true}">
+                                <a @click.prevent="nextPage" href="">&rAarr;</a>
                             </li>
                         </ul>
                     </nav>
