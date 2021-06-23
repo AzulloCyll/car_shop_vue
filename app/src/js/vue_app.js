@@ -24,10 +24,12 @@ const app = new Vue({
 			nextActive: false,
 			prevActive: false,
 			pageSelected: 1,
-			//zmienne do sortowania po cenie
+			//zmienne do filtrowania po cenie
 			priceFrom: "0",
 			priceTo: "0",
 			filterMode: false, //wyłącza paginacje gdy uzywamy filtru po cenie
+			//zmienne do filtru po marce
+			productBrands: [],
 		};
 	},
 	created() {
@@ -37,7 +39,7 @@ const app = new Vue({
 		pages() {
 			return parseInt(this.parsedHeadersLink.last._page);
 		},
-		//ceny w filtrze będą dobre tylko jesli legalPrices będzie >0
+		//wyliczam czy wpisane ceny są poprawne (cenaDo - cenaOd), jeśli wynik ujemny to ceny nieprawidłowe
 		legalPrices() {
 			return this.priceTo - this.priceFrom;
 		},
@@ -60,7 +62,18 @@ const app = new Vue({
 			//drugie zapytanie potzebne do filtrów - dzięki temu będą wyszukiwać we wszystkich produktach
 			axios.get(this.apiAll).then((response) => {
 				this.allProducts = response.data;
+				this.getProductBrands();
 			});
+		},
+		getProductBrands() {
+			//pobieram wszystkie marki
+			for (const product of this.allProducts) {
+				this.productBrands.push(product.brand);
+			}
+			//usuwam duplikaty
+			this.productBrands = [...new Set(this.productBrands)];
+			//sortuje alfabetycznie
+			this.productBrands = this.productBrands.sort();
 		},
 		setColor(productColor) {
 			return {
@@ -176,6 +189,19 @@ const app = new Vue({
 					}
 				});
 			}
+		},
+		brandFilter($event) {
+			let val = $event.target.value;
+			console.log(val);
+			this.filteredProducts = this.allProducts.slice();
+			this.filteredProducts = this.filteredProduct.filter((product) => {
+				console.log(product.brand);
+				if (product.brand == val) {
+					return {
+						product,
+					};
+				}
+			});
 		},
 	},
 });

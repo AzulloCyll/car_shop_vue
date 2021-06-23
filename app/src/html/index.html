@@ -48,11 +48,10 @@
 						<div class="form-field-row form-field-row-variant-1">
 							<div>
 								<label for="field-brand">Marka:</label>
-								<select name="field-brand" id="field-brand">
-									<option value="0" selected>Wybierz markę</option>
-									<option value="brand-1">Mój brand 1</option>
-									<option value="brand-2">Mój brand 2</option>
-									<option value="brand-3">Mój brand 3</option>
+								<select @change="brandFilter($event)" name="field-brand" id="field-brand">
+									<option value="0" selected disabled>Wybierz markę</option>
+									<option v-for="brand of productBrands" :value="brand">
+										{{brand}}</option>
 								</select>
 							</div>
 							<div>
