@@ -32,6 +32,8 @@ const app = new Vue({
 			filterMode: false, //wyłącza paginacje gdy uzywamy filtru po cenie
 			//zmienne do filtru po marce
 			productBrands: [],
+			productColors: [],
+			checked: [false, false, false],
 		};
 	},
 	created() {
@@ -66,6 +68,7 @@ const app = new Vue({
 			axios.get(this.apiAll).then((response) => {
 				this.allProducts = response.data;
 				this.getProductBrands();
+				this.getProductColors();
 			});
 		},
 		getProductBrands() {
@@ -77,6 +80,13 @@ const app = new Vue({
 			this.productBrands = [...new Set(this.productBrands)];
 			//sortuje alfabetycznie
 			this.productBrands = this.productBrands.sort();
+		},
+		getProductColors() {
+			for (const product of this.allProducts) {
+				this.productColors.push(product.color);
+			}
+			this.productColors = [... new Set(this.productColors)];
+			this.productColors = this.productColors.sort();
 		},
 		setColor(productColor) {
 			return {
@@ -211,7 +221,6 @@ const app = new Vue({
 				this.filteredProducts = this.filteredProducts.filter((product) => {
 					if (product.price > this.priceFrom && product.price < this.priceTo) {
 						return {
-							product,
 						};
 					}
 				});
@@ -225,5 +234,17 @@ const app = new Vue({
 				}
 			});
 		},
+		colorFilter($event) {
+
+			if ($event.target.checked) {
+				this.filteredProducts = this.allProducts.slice();
+				this.filteredProducts = this.filteredProducts.filter((product) => {
+					if (product.color === this.productColors[$event.target.value]) {
+						return product;
+					}
+				});
+			} else { this.filteredProducts = this.allProducts.slice(); }
+		}
+
 	},
 });

@@ -49,7 +49,8 @@
 							<div>
 								<label for="field-brand">Marka:</label>
 								<select @change="brandFilter($event)" name="field-brand" id="field-brand">
-									<option value="0" selected disabled>Wybierz markę</option>
+									<option value="0" selected disabled>
+										Wybierz markę</option>
 									<option v-for="brand of productBrands" :value="brand">
 										{{brand}}</option>
 								</select>
@@ -64,17 +65,10 @@
 							</div>
 						</div>
 						<div class="form-field-row">
-							<div>
-								<label for="field-color-1">Kolor 1</label>
-								<input type="checkbox" name="field-color-1" id="field-color-1" />
-							</div>
-							<div>
-								<label for="field-color-2">Kolor 2</label>
-								<input type="checkbox" name="field-color-2" id="field-color-2" />
-							</div>
-							<div>
-								<label for="field-color-3">Kolor 3</label>
-								<input type="checkbox" name="field-color-3" id="field-color-3" />
+							<div v-for="(color, index) of productColors">
+								<label :for="color">{{color}}</label>
+								<input type="checkbox" v-model:checked="checked[index]" @click="colorFilter($event)"
+									:value="index" :name="color" />
 							</div>
 						</div>
 					</form>
