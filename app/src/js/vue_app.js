@@ -22,8 +22,10 @@ const app = new Vue({
 			unparsedHeadersLink: "",
 			parsedHeadersLink: {},
 			nextActive: false,
-			prevActive: false,
+			prevActive: true,
 			pageSelected: 1,
+			firstPage: 1,
+			lastPage: 3,
 			//zmienne do filtrowania po cenie
 			priceFrom: "0",
 			priceTo: "0",
@@ -59,6 +61,7 @@ const app = new Vue({
 					// (dzięki temu unikam błedów wynikająchych z asynchronicznego pobierania danych)
 				})
 				.catch((err) => console.error(err));
+
 			//drugie zapytanie potzebne do filtrów - dzięki temu będą wyszukiwać we wszystkich produktach
 			axios.get(this.apiAll).then((response) => {
 				this.allProducts = response.data;
@@ -146,33 +149,57 @@ const app = new Vue({
 				this.filterMode = false;
 			}
 		},
-		apiChange($event) {
+		//podmienia adres strony pobierania plików z json-server
+		pageChange($event) {
 			this.api = $event.target.href;
+			this.sortDirection = ""; //kasuje wybrany oznaczony przycisk sortowania
 			this.getProducts();
-			this.pageSelected = parseInt($event.target.innerHTML);
-			//zmaina api resetuje sortowanie wg ceny więc deaktywuje wybrany filtr
-			this.sortDirection = "";
-			this.prevActive = false;
-			this.nextActive = false;
+			this.paginationActivItemHandler($event);
 		},
 		nextPage() {
 			this.pageSelected += 1;
 			this.prevActive = false;
+
 			if (this.parsedHeadersLink.hasOwnProperty("next")) {
 				this.api = this.parsedHeadersLink.next.url;
 				this.getProducts();
-			} else {
+			}
+
+			//wylacza kolejne klikniecie w prawo gdy jestesmy na ostatniej stronie
+			if (this.pageSelected === this.lastPage) {
 				this.nextActive = true;
 			}
 		},
 		prevPage() {
 			this.pageSelected -= 1;
 			this.nextActive = false;
+
 			if (this.parsedHeadersLink.hasOwnProperty("prev")) {
 				this.api = this.parsedHeadersLink.prev.url;
 				this.getProducts();
-			} else {
+			}
+
+			//wylacza kolejne klikniecie w lewo gdy jestesmy na pierwszej stronie
+			if (this.pageSelected === this.firstPage) {
 				this.prevActive = true;
+			}
+		},
+		paginationActivItemHandler($event) {
+			this.pageSelected = parseInt($event.target.innerHTML);
+			console.log($event.target.innerHTML);
+
+			if (parseInt($event.target.innerHTML) === this.firstPage) {
+				this.prevActive = true;
+				this.nextActive = false;
+			} else {
+				this.prevActive = false;
+			}
+
+			if (parseInt($event.target.innerHTML) === this.lastPage) {
+				this.nextActive = true;
+				this.prevActive = false;
+			} else {
+				this.nextActive = false;
 			}
 		},
 		priceFilter() {
@@ -191,15 +218,10 @@ const app = new Vue({
 			}
 		},
 		brandFilter($event) {
-			let val = $event.target.value;
-			console.log(val);
 			this.filteredProducts = this.allProducts.slice();
-			this.filteredProducts = this.filteredProduct.filter((product) => {
-				console.log(product.brand);
-				if (product.brand == val) {
-					return {
-						product,
-					};
+			this.filteredProducts = this.filteredProducts.filter((product) => {
+				if (product.brand === $event.target.value) {
+					return product;
 				}
 			});
 		},
