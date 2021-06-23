@@ -1,148 +1,148 @@
 //normalize import from node_modules
-@import '../../node_modules/normalize.css/normalize';
+@import "../../node_modules/normalize.css/normalize";
 
 .is-hide {
-  display: none;
+	display: none;
 }
 
 nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
 }
 
 .form-field-row {
-  display: flex;
-  margin: 20px 0;
+	display: flex;
+	margin: 20px 0;
 }
 
 .form-field-row-variant-1 {
-  justify-content: space-between;
+	justify-content: space-between;
 }
 
 .form-field-row-variant-2 {
-  justify-content: flex-end;
+	justify-content: flex-end;
 }
 
 main {
-  width: 1024px;
-  max-width: 100%;
-  margin: 0 auto;
+	width: 1024px;
+	max-width: 100%;
+	margin: 0 auto;
 }
 
 img {
-  max-width: 100%;
+	max-width: 100%;
 }
 
 .products article {
-  display: flex;
+	display: flex;
 }
 
 .products article > div:first-child {
-  flex: 1;
-  padding-right: 25px;
+	flex: 1;
+	padding-right: 25px;
 }
 
 .products article > div:nth-child(2) {
-  flex-basis: 25%;
-  flex-grow: 1;
+	flex-basis: 25%;
+	flex-grow: 1;
 }
 
 .products article > div:last-child {
-  margin-left: auto;
-  text-align: right;
+	margin-left: auto;
+	text-align: right;
 }
 
 .pagination ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  margin-bottom: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	margin-bottom: 20px;
 }
 
 .pagination li {
-  border: 1px solid black;
+	border: 1px solid black;
 }
 
 .pagination a {
-  display: block;
-  padding: 12px;
-  text-decoration: none;
+	display: block;
+	padding: 12px;
+	text-decoration: none;
 }
 
 .compare > div {
-  display: flex;
-  justify-content: space-around;
+	display: flex;
+	justify-content: space-around;
 }
 
 .compare article {
-  background-color: aliceblue;
-  padding: 25px;
+	background-color: aliceblue;
+	padding: 25px;
 }
 
 .compare article {
-  flex-basis: 33.33%;
+	flex-basis: 33.33%;
 }
 
 .compare article > div:first-child {
-  text-align: center;
-  margin-bottom: 25px;
+	text-align: center;
+	margin-bottom: 25px;
 }
 
 .color {
-  display: inline-block;
-  margin-left: 7px;
-  width: 20px;
-  height: 20px;
-  position: relative;
-  top: 5px;
+	display: inline-block;
+	margin-left: 7px;
+	width: 20px;
+	height: 20px;
+	position: relative;
+	top: 5px;
 }
 
 button {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .active {
-  color: white;
-  background-color: black;
-  border: 2px solid black;
-  border-radius: 3px;
+	color: white;
+	background-color: black;
+	border: 2px solid black;
+	border-radius: 3px;
 }
 
 .loader,
 .search-error {
-  text-align: center;
-  font-weight: bold;
-  font-size: 3em;
-  margin-top: 150px;
-  margin-bottom: 150px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 3em;
+	margin-top: 150px;
+	margin-bottom: 150px;
 }
 
 .special {
-  background-color: cadetblue;
-  border: 1px solid black;
-  border-radius: 3px;
+	background-color: cadetblue;
+	border: 1px solid black;
+	border-radius: 3px;
 }
 
 .special:hover {
-  background-color: rgb(67, 139, 141);
+	background-color: rgb(67, 139, 141);
 }
 
 .inactive {
-  border: 1px solid lightgray !important;
-  a {
-    color: lightgray;
-    pointer-events: none;
-  }
+	border: 1px solid lightgray !important;
+	a {
+		color: lightgray;
+		pointer-events: none;
+	}
 }
 
 a {
-  color: black;
+	color: black;
 }
 
 .activepage {
-  background-color: black;
-  color: white;
+	background-color: black;
+	color: white;
 }

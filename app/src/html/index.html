@@ -125,23 +125,24 @@
 						<hr />
 					</template>
 				</div>
-				<div>
-
-					<nav class="pagination">
-						<ul>
-							<li :class="{inactive: prevActive === true}">
-								<a @click.prevent="prevPage" href="">&lAarr;</a>
-							</li>
-							<li v-for="n of pages">
-								<a @click.prevent="apiChange($event)" :href="api.slice(0, -1)+n"
-									:class="{ activepage : pageSelected === n }">{{n}}</a>
-							</li>
-							<li :class="{inactive: nextActive === true}">
-								<a @click.prevent="nextPage" href="">&rAarr;</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
+				<template v-if="filterMode === false">
+					<div>
+						<nav class="pagination">
+							<ul>
+								<li :class="{inactive: prevActive === true}">
+									<a @click.prevent="prevPage" href="">&lAarr;</a>
+								</li>
+								<li v-for="n of pages">
+									<a @click.prevent="apiChange($event)" :href="api.slice(0, -1)+n"
+										:class="{ activepage : pageSelected === n }">{{n}}</a>
+								</li>
+								<li :class="{inactive: nextActive === true}">
+									<a @click.prevent="nextPage" href="">&rAarr;</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</template>
 			</section>
 			<section v-if="padActivated === 'compare'" class="compare">
 				<h2>Porównywarka</h2>
