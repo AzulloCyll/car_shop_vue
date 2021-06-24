@@ -64,7 +64,7 @@
 								<button type="button" @click="priceFilter">Filtruj</button>
 							</div>
 						</div>
-						<div class="form-field-row">
+						<div class="form-field-row"><span class="choose-color">Wybierz kolor:</span>
 							<div v-for="(color, index) of productColors">
 								<label :for="color">{{color}}</label>
 								<input type="checkbox" v-model:checked="checked[index]" @change="colorFilter($event)"

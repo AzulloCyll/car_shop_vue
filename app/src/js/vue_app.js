@@ -18,7 +18,7 @@ const app = new Vue({
 			searchValue: "",
 			buttonDisabled: true, //wyłącza przyciask szukaj gdy jest za mało znaków
 			isNothingSearched: false, //obsługuje error gdy brak wyników wyszukiwania
-			// poniżej zmienne do paginacji
+			// poniżej zmienne do obsługi paginacji
 			unparsedHeadersLink: "",
 			parsedHeadersLink: {},
 			nextActive: false,
@@ -243,32 +243,38 @@ const app = new Vue({
 				}
 			});
 		},
-
-		colorFilter($event) {
-			//dobry trop
-			for (const item in this.checkedColors) {
-				if (this.checkedColors[item] === true) {
-					console.log(this.checkedColors[item], item); // warunek dobry
-					// tu jakiegos finda i pusha
+		colorFilter() {
+			//
+			// (checkedColors -> użyłem computed)
+			//
+			// gdy w checkedColor są jakieś values === true
+			if (Object.values(this.checkedColors).includes(true)) {
+				//kasuje wszystko z tablicy
+				this.filterMode = true;
+				this.filteredProducts = [];
+				// dla kazdego koloru
+				for (const color in this.checkedColors) {
+					// który jest true
+					if (this.checkedColors[color] === true) {
+						// iteruje przez wszystkie produkty
+						for (const product of this.allProducts) {
+							// jesli kolor przez który iteruje === kolor produktu
+							if (product.color === color) {
+								// to wrzucam go do tablicy wyswietlanych produktów
+								this.filteredProducts.push(product);
+							}
+						}
+					}
 				}
+				// gdy nic nie zaznaczone wraca do początkowego trybu
+			} else {
+				this.filterMode = false;
+				this.getProducts();
 			}
-
-			// // dokończyć
-			// if ($event.target.checked) {
-			// 	this.filteredProducts = this.allProducts.slice();
-			// 	this.filteredProducts = this.filteredProducts.filter((product) => {
-			// 		if (product.color === this.productColors[$event.target.value]) {
-			// 			return product;
-			// 		}
-			// 	});
-			// } else {
-			// 	this.filteredProducts = this.allProducts.slice();
-			// }
 		},
 		addToCompare(currentProduct) {
 			//sprawdzam czy dany produkt jest na liśce po ID
 			let check = this.comparedProducts.find((x) => x.id === currentProduct.id);
-
 			if (this.comparedProducts.length < 3) {
 				if (!check) {
 					//jeśli go nie ma to dodaję
