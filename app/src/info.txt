@@ -1,0 +1,19 @@
+Wszystkie punkty zrobiłem.
+
+ale...
+
+pkt 2: 
+Informacje potrzebne do działania paginacji wyciągnełem z Headers zapytania, sparsowałem je do postaci obiektu biblioteką "parse-link-header". No i wprowadziłem tzw. "filter mode", gdzie w przypadku użycia filtrów z pkt. 6 oraz wyszukiwarki ukrywam paginację (bo skoro jest po stronie serwera, to kasuje wyświetlone fitrowanie). Dzięki temu wyszukuje we wszystkich produktach, a nie w tylko tych 4-ech wyświetlonych.
+
+pkt 3: 
+Z kolei sortowanie działa na aktualnym widoku.
+
+pkt 5:
+W opisie zadania napisane jest, że wyszukiwarka powinna aktywować się po wpisaniu 3 znaków, natomiast na rysunku widać przycisk, który trzeba nacisnąć aby wyszukiwarka zadziałała. Zrobiłem więc tak, że w/w przycisk aktywuje się dopiero po wpisaniu conajmniej 3 znaków. 
+
+pkt 6: 
+W przypadku filtra "zakres cenowy" dodałem do html przycisk, który wysyła wyzwala filtrację.
+
+(Nie to, że nie umiem inaczej :D, po prostu tak to ograłem. Zawsze to mniej zapytań do serwera. Jakbym już zrobił bez przycisków, to dodatkowo żyłbym biblioteki debounce żeby ilość tych zapytań ograniczyć)
+
+
