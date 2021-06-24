@@ -49,7 +49,6 @@ const app = new Vue({
 		legalPrices() {
 			return this.priceTo - this.priceFrom;
 		},
-
 		checkedColors() {
 			let obj = {};
 			this.productColors.forEach((value, index) => {
@@ -57,7 +56,6 @@ const app = new Vue({
 			});
 			return obj;
 		},
-
 	},
 	methods: {
 		//pobiera produkty
@@ -96,7 +94,7 @@ const app = new Vue({
 			for (const product of this.allProducts) {
 				this.productColors.push(product.color);
 			}
-			this.productColors = [... new Set(this.productColors)];
+			this.productColors = [...new Set(this.productColors)];
 			this.productColors = this.productColors.sort();
 		},
 		setColor(productColor) {
@@ -175,7 +173,7 @@ const app = new Vue({
 			this.api = $event.target.href;
 			this.sortDirection = ""; //kasuje wybrany oznaczony przycisk sortowania
 			this.getProducts();
-			this.paginationActivItemHandler($event);
+			this.paginationActiveItemHandler($event);
 		},
 		nextPage() {
 			this.pageSelected += 1;
@@ -205,9 +203,8 @@ const app = new Vue({
 				this.prevActive = true;
 			}
 		},
-		paginationActivItemHandler($event) {
+		paginationActiveItemHandler($event) {
 			this.pageSelected = parseInt($event.target.innerHTML);
-			console.log($event.target.innerHTML);
 
 			if (parseInt($event.target.innerHTML) === this.firstPage) {
 				this.prevActive = true;
@@ -231,8 +228,7 @@ const app = new Vue({
 				this.filteredProducts = this.allProducts.slice();
 				this.filteredProducts = this.filteredProducts.filter((product) => {
 					if (product.price > this.priceFrom && product.price < this.priceTo) {
-						return {
-						};
+						return {};
 					}
 				});
 			}
@@ -245,25 +241,40 @@ const app = new Vue({
 				}
 			});
 		},
+
 		colorFilter($event) {
-
-			// console.log($event.target.name);
-			// console.log(this.checkedColors[$event.target.name]);
-			// console.log(this.checked[$event.target.value]);
-
+			// dokończyć
 			if ($event.target.checked) {
-				// this.filteredProducts = this.allProducts.slice();
+				this.filteredProducts = this.allProducts.slice();
 				this.filteredProducts = this.filteredProducts.filter((product) => {
 					if (product.color === this.productColors[$event.target.value]) {
 						return product;
 					}
 				});
-			} else { this.filteredProducts = this.allProducts.slice(); }
+			} else {
+				this.filteredProducts = this.allProducts.slice();
+			}
 		},
 		addToCompare(currentProduct) {
-			console.log(currentProduct);
-			this.comparedProducts.push(currentProduct);
-			// this.padActivated = "compare";
+			//sprawdzam czy dany produkt jest na liśce po ID
+			let check = this.comparedProducts.find((x) => x.id === currentProduct.id);
+
+			if (this.comparedProducts.length < 3) {
+				if (!check) {
+					//jeśli go nie ma to dodaję
+					this.comparedProducts.push(currentProduct);
+				} else {
+					// jeśli jest
+					alert("Ten produkt już znajduje się na liście, wybierz inny");
+				}
+			}
+		},
+		removeFromCompare(currentProduct) {
+			this.comparedProducts = this.comparedProducts.filter((product) => {
+				if (product.id !== currentProduct.id) {
+					return product;
+				}
+			});
 		},
 	},
 });

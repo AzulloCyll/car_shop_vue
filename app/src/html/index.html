@@ -67,7 +67,7 @@
 						<div class="form-field-row">
 							<div v-for="(color, index) of productColors">
 								<label :for="color">{{color}}</label>
-								<input type="checkbox" v-model:checked="checked[index]" @click="colorFilter($event)"
+								<input type="checkbox" v-model:checked="checked[index]" @change="colorFilter($event)"
 									:value="index" :name="color" />
 							</div>
 						</div>
@@ -105,8 +105,8 @@
 							</div>
 							<div>
 								<!-- v-bind:class jeśli product.special === true -->
-								<button @click="addToCompare(product)" class="button" type="button"
-									v-bind:class="{ special: product.special }">
+								<button :disabled="comparedProducts.length >= 3" @click="addToCompare(product)"
+									class="button" type="button" v-bind:class="{ special: product.special }">
 									Dodaj do porównania</button>
 								<br />
 								<div>
@@ -141,44 +141,45 @@
 			<section v-if="padActivated === 'compare'" class="compare">
 				<h2>Porównywarka</h2>
 				<hr />
+				<div class="loader" v-if="comparedProducts.length === 0"><span>Brak produktów do porównania.<br>Wróć na
+						listę produktów.</span></div>
 				<div>
-					<article v-bind:style="specialProductColorChange(product.special)">
+					<article v-for="product of comparedProducts"
+						v-bind:style="specialProductColorChange(product.special)">
 						<div>
-							<button type="button">Usuń z porównania</button>
+							<button @click="removeFromCompare(product)" type="button">Usuń z porównania</button>
 						</div>
 						<div>
 							<img src="https://via.placeholder.com/350x240" alt="Obrazek" />
 						</div>
 						<div>
-							<h3>Nazwa produktu</h3>
+							<h3>{{product.name}}</h3>
 							<br />
-							<small>Model produktu: <em>Abc</em>, <em>123</em></small>
+							<small>Model produktu: <em>{{product.model}}</em></small>
 							<br />
 							<br />
-							<strong>Marka: <span>XYZ</span></strong>
+							<strong>Marka: <span>{{product.brand}}</span></strong>
 						</div>
 						<div>
 							<div>
 								<hr />
-								<span>100,00 zł netto</span><br />
-								<span>123,00 zł brutto</span>
+								<span>{{product.price.toFixed(2)}} netto</span><br />
+								<span>{{((Math.round(100 * product.price * 1.23)/100)).toFixed(2)}}
+									brutto</span>
 							</div>
 							<div>
 								<hr />
 								<h4>Opis</h4>
 								<p>
-									Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-									Voluptatibus inventore molestiae ad reprehenderit facilis,
-									labore facere. Voluptate et eos, ab hic repellat dolores in
-									beatae dolore praesentium, quia sunt eum!
+									{{product.description}}
 								</p>
 								<br />
 								<br />
-								<strong>Kolor: <span>Kolor 1</span></strong>
+								<strong>Kolor: <span>{{product.color}}</span></strong>
 							</div>
 						</div>
 					</article>
-
+				</div>
 			</section>
 		</template>
 	</main>
