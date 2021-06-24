@@ -40,6 +40,8 @@ const app = new Vue({
 	},
 	created() {
 		this.getProducts();
+		// wczytuje save
+		// 
 	},
 	computed: {
 		pages() {
@@ -72,6 +74,7 @@ const app = new Vue({
 					this.filteredProducts = this.products.slice(); //kopia tablicy
 					this.isDataLoading = false; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
 					// (dzięki temu unikam błedów wynikająchych z asynchronicznego pobierania danych)
+					this.loadFromLocalStorage();
 				})
 				.catch((err) => console.error(err));
 
@@ -249,8 +252,8 @@ const app = new Vue({
 			//
 			// gdy w checkedColor są jakieś values === true
 			if (Object.values(this.checkedColors).includes(true)) {
-				//kasuje wszystko z tablicy
 				this.filterMode = true;
+				//kasuje wszystko z tablicy
 				this.filteredProducts = [];
 				// dla kazdego koloru
 				for (const color in this.checkedColors) {
@@ -279,11 +282,14 @@ const app = new Vue({
 				if (!check) {
 					//jeśli go nie ma to dodaję
 					this.comparedProducts.push(currentProduct);
+					//i pokazuję notyfikację
+					this.showNotification(currentProduct);
 				} else {
 					// jeśli jest
 					alert("Ten produkt już znajduje się na liście, wybierz inny");
 				}
 			}
+			this.saveToLocalStorage();
 		},
 		removeFromCompare(currentProduct) {
 			this.comparedProducts = this.comparedProducts.filter((product) => {
@@ -291,6 +297,35 @@ const app = new Vue({
 					return product;
 				}
 			});
+			this.saveToLocalStorage();
 		},
-	},
+		//zapis w localStorage
+		saveToLocalStorage() {
+			localStorage.setItem("savedProducts", JSON.stringify(this.comparedProducts));
+		},
+		//odczyt z localStorage
+		loadFromLocalStorage() {
+			this.comparedProducts = JSON.parse(localStorage.getItem("savedProducts"));
+		},
+		//notyfikacje - skopiowane i dostosowane
+		showNotification(currentProduct) {
+			if (!("Notification" in window)) {
+				// nie obsługujemy powiadomień
+			} else if (Notification.permission === "granted") {
+				// mamy pozwolenie na powiadomienia
+				const dummyImg = "https://dummyimage.com/350x240/d4d4d4/000000";
+				const header = `Nazwa: ${currentProduct.name}, Cena: ${currentProduct.price}`;
+				const text = `Marka: ${currentProduct.brand}, Model: ${currentProduct.model}, Kolor: ${currentProduct.color}`;
+				const notification = new Notification(header, {
+					body: text,
+					icon: dummyImg,
+				});
+			} else if (Notification.permission !== "denied") {
+				// jeszcze nie mamy pozwolenia, więc o nie poprosimy
+				Notification.requestPermission().then(function (result) {
+					console.log("Notification", result);
+				});
+			}
+		},
+	}
 });
