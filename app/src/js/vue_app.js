@@ -40,8 +40,6 @@ const app = new Vue({
 	},
 	created() {
 		this.getProducts();
-		// wczytuje save
-		// 
 	},
 	computed: {
 		pages() {
@@ -74,6 +72,7 @@ const app = new Vue({
 					this.filteredProducts = this.products.slice(); //kopia tablicy
 					this.isDataLoading = false; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
 					// (dzięki temu unikam błedów wynikająchych z asynchronicznego pobierania danych)
+					// wczytuje save
 					this.loadFromLocalStorage();
 				})
 				.catch((err) => console.error(err));
