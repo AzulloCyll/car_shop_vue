@@ -34,6 +34,8 @@ const app = new Vue({
 			productBrands: [],
 			productColors: [],
 			checked: [false, false, false],
+			//
+			comparedProducts: [],
 		};
 	},
 	created() {
@@ -47,6 +49,15 @@ const app = new Vue({
 		legalPrices() {
 			return this.priceTo - this.priceFrom;
 		},
+
+		checkedColors() {
+			let obj = {};
+			this.productColors.forEach((value, index) => {
+				obj[value] = this.checked[index];
+			});
+			return obj;
+		},
+
 	},
 	methods: {
 		//pobiera produkty
@@ -236,15 +247,23 @@ const app = new Vue({
 		},
 		colorFilter($event) {
 
+			// console.log($event.target.name);
+			// console.log(this.checkedColors[$event.target.name]);
+			// console.log(this.checked[$event.target.value]);
+
 			if ($event.target.checked) {
-				this.filteredProducts = this.allProducts.slice();
+				// this.filteredProducts = this.allProducts.slice();
 				this.filteredProducts = this.filteredProducts.filter((product) => {
 					if (product.color === this.productColors[$event.target.value]) {
 						return product;
 					}
 				});
 			} else { this.filteredProducts = this.allProducts.slice(); }
-		}
-
+		},
+		addToCompare(currentProduct) {
+			console.log(currentProduct);
+			this.comparedProducts.push(currentProduct);
+			// this.padActivated = "compare";
+		},
 	},
 });
