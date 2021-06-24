@@ -24,8 +24,8 @@ const app = new Vue({
 			nextActive: false,
 			prevActive: true,
 			pageSelected: 1,
-			firstPage: 1,
-			lastPage: 3,
+			firstPage: "",
+			lastPage: "",
 			//zmienne do filtrowania po cenie
 			priceFrom: "0",
 			priceTo: "0",
@@ -67,6 +67,8 @@ const app = new Vue({
 					//parsowanie response.headers.link do pliku JSON
 					this.parsedHeadersLink = parse(this.unparsedHeadersLink);
 					this.products = response.data;
+					this.firstPage = parseInt(this.parsedHeadersLink.first._page);
+					this.lastPage = parseInt(this.parsedHeadersLink.last._page);
 					this.filteredProducts = this.products.slice(); //kopia tablicy
 					this.isDataLoading = false; // zmienna wyłącza loader po załadowaniu danych i dopiero wtedy wyświetla sekcje z danymi
 					// (dzięki temu unikam błedów wynikająchych z asynchronicznego pobierania danych)
@@ -243,17 +245,25 @@ const app = new Vue({
 		},
 
 		colorFilter($event) {
-			// dokończyć
-			if ($event.target.checked) {
-				this.filteredProducts = this.allProducts.slice();
-				this.filteredProducts = this.filteredProducts.filter((product) => {
-					if (product.color === this.productColors[$event.target.value]) {
-						return product;
-					}
-				});
-			} else {
-				this.filteredProducts = this.allProducts.slice();
+			//dobry trop
+			for (const item in this.checkedColors) {
+				if (this.checkedColors[item] === true) {
+					console.log(this.checkedColors[item], item); // warunek dobry
+					// tu jakiegos finda i pusha
+				}
 			}
+
+			// // dokończyć
+			// if ($event.target.checked) {
+			// 	this.filteredProducts = this.allProducts.slice();
+			// 	this.filteredProducts = this.filteredProducts.filter((product) => {
+			// 		if (product.color === this.productColors[$event.target.value]) {
+			// 			return product;
+			// 		}
+			// 	});
+			// } else {
+			// 	this.filteredProducts = this.allProducts.slice();
+			// }
 		},
 		addToCompare(currentProduct) {
 			//sprawdzam czy dany produkt jest na liśce po ID
