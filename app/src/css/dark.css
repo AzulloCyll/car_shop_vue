@@ -1,4 +1,6 @@
 :root {
 	--color: rgb(250, 250, 250);
 	--background-color: rgb(5, 5, 5);
+	--product-color: rgb(17, 17, 17);
+	--special-product-color:rgb(41, 41, 41);
 }

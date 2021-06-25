@@ -1,5 +1,5 @@
 //normalize import from node_modules
-@import "../../node_modules/normalize.css/normalize";
+@import '../../node_modules/normalize.css/normalize';
 /* Zapis, który mówi o tym jakich schematów kolorystycznych możemy używać */
 :root {
 	color-scheme: light dark;
@@ -88,7 +88,7 @@ img {
 }
 
 .compare article {
-	background-color: aliceblue;
+	background-color: var(--product-color);
 	padding: 25px;
 }
 
@@ -136,6 +136,10 @@ button {
 	border-radius: 3px;
 }
 
+.specialproduct {
+	background-color: var(--special-product-color) !important;
+}
+
 .special:hover {
 	background-color: rgb(67, 139, 141);
 }
@@ -157,11 +161,7 @@ a {
 	color: white;
 }
 
-article {
-	display: inline-block;
-}
-
-input[type="checkbox"] {
+input[type='checkbox'] {
 	margin-right: 20px;
 }
 

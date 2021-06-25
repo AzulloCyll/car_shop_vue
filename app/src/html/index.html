@@ -90,7 +90,7 @@
 						<div class="search-error">Nie znaleziono produktów dla frazy: "{{searchValue}}"</div>
 					</template>
 					<template v-for="product in filteredProducts">
-						<article v-bind:style="specialProductColorChange(product.special)">
+						<article :class="{ specialproduct: product.special }">
 							<div>
 								<img src="https://via.placeholder.com/350x240" alt="Obrazek" />
 							</div>
@@ -147,8 +147,7 @@
 				<div class="loader" v-if="comparedProducts.length === 0"><span>Brak produktów do porównania.<br>Wróć na
 						listę produktów.</span></div>
 				<div>
-					<article v-for="product of comparedProducts"
-						v-bind:style="specialProductColorChange(product.special)">
+					<article v-for="product of comparedProducts" :class="{specialproduct: product.special}">
 						<div>
 							<button @click="removeFromCompare(product)" type="button">Usuń z porównania</button>
 						</div>

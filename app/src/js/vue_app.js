@@ -20,7 +20,7 @@ const app = new Vue({
 			isNothingSearched: false, //obsługuje error gdy brak wyników wyszukiwania
 			// poniżej zmienne do obsługi paginacji
 			unparsedHeadersLink: "",
-			parsedHeadersLink: {},
+			parsedHeadersLink: {}, //tutaj znajduje się przeparsowany Headers
 			nextActive: false,
 			prevActive: true,
 			pageSelected: 1,
@@ -105,13 +105,6 @@ const app = new Vue({
 			return {
 				"background-color": productColor,
 			};
-		},
-		specialProductColorChange(isSpecial) {
-			if (isSpecial) {
-				return {
-					"background-color": "#f2ede7",
-				};
-			}
 		},
 		sortProducts(sortDirection) {
 			this.sortDirection = sortDirection;
