@@ -300,11 +300,18 @@ const app = new Vue({
 		},
 		//zapis w localStorage
 		saveToLocalStorage() {
-			localStorage.setItem("savedProducts", JSON.stringify(this.comparedProducts));
+			localStorage.setItem(
+				"savedProducts",
+				JSON.stringify(this.comparedProducts)
+			);
 		},
 		//odczyt z localStorage
 		loadFromLocalStorage() {
-			this.comparedProducts = JSON.parse(localStorage.getItem("savedProducts"));
+			if (localStorage.getItem("savedProducts")) {
+				this.comparedProducts = JSON.parse(
+					localStorage.getItem("savedProducts")
+				);
+			}
 		},
 		//notyfikacje - skopiowane i dostosowane
 		showNotification(currentProduct) {
@@ -319,6 +326,13 @@ const app = new Vue({
 					body: text,
 					icon: dummyImg,
 				});
+				console.log(notification);
+				document.addEventListener("visibilitychange", function () {
+					if (document.visibilityState === "visible") {
+						// The tab has become visible so clear the now-stale Notification.
+						notification.close();
+					}
+				});
 			} else if (Notification.permission !== "denied") {
 				// jeszcze nie mamy pozwolenia, więc o nie poprosimy
 				Notification.requestPermission().then(function (result) {
@@ -326,5 +340,13 @@ const app = new Vue({
 				});
 			}
 		},
-	}
+	},
+});
+
+// wersje kolorystyczne
+// Sprawdzanie jaki theme kolorystyczny mamy aktualnie włączony w systemie (dark lub light)
+const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+darkModeMediaQuery.addListener((e) => {
+	const darkModeOn = e.matches;
+	console.log(`Dark mode is ${darkModeOn ? "🌒 on" : "☀️ off"}.`);
 });

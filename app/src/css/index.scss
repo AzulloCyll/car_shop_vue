@@ -1,5 +1,15 @@
 //normalize import from node_modules
 @import "../../node_modules/normalize.css/normalize";
+/* Zapis, który mówi o tym jakich schematów kolorystycznych możemy używać */
+:root {
+	color-scheme: light dark;
+}
+body {
+	/* przypisanie zmiennej CSS z pliku dark.css lub light.css */
+	color: var(--color);
+	/* przypisanie zmiennej CSS z pliku dark.css lub light.css */
+	background-color: var(--background-color);
+}
 
 .is-hide {
 	display: none;
