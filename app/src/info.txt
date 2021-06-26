@@ -1,6 +1,4 @@
-Wszystkie punkty zrobiłem.
-
-ale...
+Wszystkie punkty z zadania właściwego zrobiłem. Z dodatkowych zrobiłem powiadomienia i dark mode. Niestety nie udało mi się uruchowmić drag'n'drop w Vue.
 
 pkt 2: 
 Informacje potrzebne do działania paginacji wyciągnełem z Headers zapytania, sparsowałem je do postaci obiektu biblioteką "parse-link-header". No i wprowadziłem tzw. "filter mode", gdzie w przypadku użycia filtrów z pkt. 6 oraz wyszukiwarki ukrywam paginację (bo skoro jest po stronie serwera, to kasuje wyświetlone fitrowanie). Dzięki temu wyszukuje we wszystkich produktach, a nie w tylko tych 4-ech wyświetlonych.
