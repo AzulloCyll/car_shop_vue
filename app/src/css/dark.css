@@ -1,6 +1,11 @@
 :root {
-	--color: rgb(250, 250, 250);
+	--color: rgb(150 150 150);
 	--background-color: rgb(5, 5, 5);
 	--product-color: rgb(17, 17, 17);
-	--special-product-color:rgb(41, 41, 41);
+	--button-active-color: rgb(255, 255, 255);
+	--button-active-text-color: rgb(41, 41, 41);
+	--special-product-color: rgb(41, 41, 41);
+	--pagination-active-color: rgb(190, 190, 190);
+	--pagination-active-text-color: rgb(41, 41, 41);
+	--pagination-disabled-color: rgb(41, 41, 41);
 }

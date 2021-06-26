@@ -319,7 +319,6 @@ const app = new Vue({
 					body: text,
 					icon: dummyImg,
 				});
-				console.log(notification);
 				document.addEventListener("visibilitychange", function () {
 					if (document.visibilityState === "visible") {
 						// The tab has become visible so clear the now-stale Notification.
@@ -339,6 +338,7 @@ const app = new Vue({
 // wersje kolorystyczne
 // Sprawdzanie jaki theme kolorystyczny mamy aktualnie włączony w systemie (dark lub light)
 const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+//pokazuje informację o uruchomionym theme
 darkModeMediaQuery.addListener((e) => {
 	const darkModeOn = e.matches;
 	console.log(`Dark mode is ${darkModeOn ? "🌒 on" : "☀️ off"}.`);

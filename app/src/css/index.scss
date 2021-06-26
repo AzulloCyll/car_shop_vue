@@ -64,41 +64,50 @@ img {
 	text-align: right;
 }
 
-.pagination ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	display: flex;
-	margin-bottom: 20px;
+.pagination {
+	& ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		margin-bottom: 20px;
+		& .inactive {
+			border: 1px solid var(--pagination-disabled-color);
+			a {
+				color: var(--pagination-disabled-color);
+				pointer-events: none;
+			}
+		}
+		& li {
+			border: 1px solid var(--pagination-active-color);
+			& a {
+				display: block;
+				padding: 12px;
+				text-decoration: none;
+				color: var(--pagination-active-color);
+			}
+			& .activepage {
+				background-color: var(--pagination-active-color);
+				color: var(--pagination-active-text-color);
+			}
+		}
+	}
 }
 
-.pagination li {
-	border: 1px solid black;
-}
-
-.pagination a {
-	display: block;
-	padding: 12px;
-	text-decoration: none;
-}
-
-.compare > div {
-	display: flex;
-	justify-content: space-around;
-}
-
-.compare article {
-	background-color: var(--product-color);
-	padding: 25px;
-}
-
-.compare article {
-	flex-basis: 33.33%;
-}
-
-.compare article > div:first-child {
-	text-align: center;
-	margin-bottom: 25px;
+.compare {
+	& > div {
+		display: flex;
+		justify-content: space-around;
+	}
+	& article {
+		background-color: var(--product-color);
+		padding: 25px;
+		flex-basis: 33.33%;
+		& > div:first-child {
+			text-align: center;
+			margin-bottom: 25px;
+		}
+	}
 }
 
 .color {
@@ -115,9 +124,9 @@ button {
 }
 
 .active {
-	color: white;
-	background-color: black;
-	border: 2px solid black;
+	color: var(--button-active-text-color);
+	background-color: var(--button-active-color);
+	border: 2px solid var(--button-active-color);
 	border-radius: 3px;
 }
 
@@ -142,23 +151,6 @@ button {
 
 .special:hover {
 	background-color: rgb(67, 139, 141);
-}
-
-.inactive {
-	border: 1px solid lightgray !important;
-	a {
-		color: lightgray;
-		pointer-events: none;
-	}
-}
-
-a {
-	color: black;
-}
-
-.activepage {
-	background-color: black;
-	color: white;
 }
 
 input[type='checkbox'] {
