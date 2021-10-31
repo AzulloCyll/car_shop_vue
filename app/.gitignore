@@ -64,6 +64,7 @@ typings/
 # VSC
 .history
 .cache
+.parcel-cache
 
 # dist files
 dist

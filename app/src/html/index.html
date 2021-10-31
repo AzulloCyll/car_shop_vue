@@ -1,96 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="../css/index.scss" />
+		<!-- Pliki odpowiadające za wersje kolorystyczne -->
+		<link
+			rel="stylesheet"
+			href="../css/dark.css"
+			media="(prefers-color-scheme: dark)"
+		/>
+		<link
+			rel="stylesheet"
+			href="../css/light.css"
+			media="(prefers-color-scheme: light)"
+		/>
+	</head>
 
-<head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Document</title>
-	<link rel="stylesheet" href="../css/index.scss" />
-	<!-- Pliki odpowiadające za wersje kolorystyczne -->
-	<link rel="stylesheet" href="../css/dark.css" media="(prefers-color-scheme: dark)" />
-	<link rel="stylesheet" href="../css/light.css" media="(prefers-color-scheme: light)" />
-</head>
-
-<body>
-	<main id="app">
-		<h1>Aplikacja</h1>
-		<nav>
-			<ul>
-				<li>
-					<button type="button" @click="padsHandler('products')"
-						:class="{ active: padActivated === 'products' }">
-						Lista produktów
-					</button>
-					<!-- bind klasy active, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActivated -->
-				</li>
-				<li>
-					<button type="button" @click="padsHandler('compare')"
-						:class="{ active: padActivated === 'compare' }">
-						Porównywarka
-					</button>
-					<!-- bind klasy active, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActivated -->
-				</li>
-			</ul>
-		</nav>
-		<template v-if="isDataLoading === true">
-			<div class="loader">Wczytywanie</div>
-		</template>
-		<template v-else>
-			<section v-if="padActivated === 'products'" class="products">
-				<h2>Lista produktów</h2>
-				<div>
-					<hr />
-					<form>
-						<div class="form-field-row">
-							<label for="field-search">Wyszukiwarka:</label>
-							<input v-on:input="searchButtonHandler" v-model="searchValue" type="search"
-								name="field-search" id="field-search" placeholder="Podaj nazwę produktu lub model" />
-							<button @click.prevent="search" type="submit" :disabled="buttonDisabled">Szukaj</button>
-						</div>
-						<div class="form-field-row form-field-row-variant-1">
-							<div>
-								<label for="field-brand">Marka:</label>
-								<select @change="brandFilter($event)" name="field-brand" id="field-brand">
-									<option value="0" selected disabled>
-										Wybierz markę</option>
-									<option v-for="brand of productBrands" :value="brand">
-										{{brand}}</option>
-								</select>
+	<body>
+		<main id="app">
+			<h1>Aplikacja</h1>
+			<nav>
+				<ul>
+					<li>
+						<button
+							type="button"
+							@click="padsHandler('products')"
+							:class="{ active: padActivated === 'products' }"
+						>
+							Lista produktów
+						</button>
+						<!-- bind klasy active, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActivated -->
+					</li>
+					<li>
+						<button
+							type="button"
+							@click="padsHandler('compare')"
+							:class="{ active: padActivated === 'compare' }"
+						>
+							Porównywarka
+						</button>
+						<!-- bind klasy active, żeby wyróznić przycisk aktywny, w zależności od stanu zmiennej padActivated -->
+					</li>
+				</ul>
+			</nav>
+			<template v-if="isDataLoading === true">
+				<div class="loader">Wczytywanie</div>
+			</template>
+			<template v-else>
+				<section v-if="padActivated === 'products'" class="products">
+					<h2>Lista produktów</h2>
+					<div>
+						<hr />
+						<form>
+							<div class="form-field-row">
+								<label for="field-search">Wyszukiwarka:</label>
+								<input
+									v-on:input="searchButtonHandler"
+									v-model="searchValue"
+									type="search"
+									name="field-search"
+									id="field-search"
+									placeholder="Podaj nazwę produktu lub model"
+								/>
+								<button
+									@click.prevent="search"
+									type="submit"
+									:disabled="buttonDisabled"
+								>
+									Szukaj
+								</button>
 							</div>
-							<div>
-								<label for="field-price-from">Cena od:</label>
-								<input v-model="priceFrom" type="number" name="field-price-from"
-									id="field-price-from" />
-								<label for="field-price-from">Cena do:</label>
-								<input v-model="priceTo" type="number" name="field-price-to" id="field-price-to" />
-								<button type="button" @click="priceFilter">Filtruj</button>
+							<div class="form-field-row form-field-row-variant-1">
+								<div>
+									<label for="field-brand">Marka:</label>
+									<select
+										@change="brandFilter($event)"
+										name="field-brand"
+										id="field-brand"
+									>
+										<option value="0" selected disabled>Wybierz markę</option>
+										<option v-for="brand of productBrands" :value="brand">
+											{{brand}}
+										</option>
+									</select>
+								</div>
+								<div>
+									<label for="field-price-from">Cena od:</label>
+									<input
+										v-model="priceFrom"
+										type="number"
+										name="field-price-from"
+										id="field-price-from"
+									/>
+									<label for="field-price-from">Cena do:</label>
+									<input
+										v-model="priceTo"
+										type="number"
+										name="field-price-to"
+										id="field-price-to"
+									/>
+									<button type="button" @click="priceFilter">Filtruj</button>
+								</div>
 							</div>
-						</div>
-						<div class="form-field-row"><span class="choose-color">Wybierz kolor:</span>
-							<div v-for="(color, index) of productColors">
-								<label :for="color">{{color}}</label>
-								<input type="checkbox" v-model:checked="checked[index]" @change="colorFilter($event)"
-									:value="index" :name="color" />
+							<div class="form-field-row">
+								<span class="choose-color">Wybierz kolor:</span>
+								<div v-for="(color, index) of productColors">
+									<label :for="color">{{color}}</label>
+									<input
+										type="checkbox"
+										v-model:checked="checked[index]"
+										@change="colorFilter($event)"
+										:value="index"
+										:name="color"
+									/>
+								</div>
 							</div>
+						</form>
+						<hr />
+					</div>
+					<div class="form-field-row form-field-row-variant-2">
+						<span>Sortuj wg. ceny: </span>
+						<button
+							type="button"
+							@click="sortProducts('desc')"
+							:class="{ active : sortDirection === 'desc' }"
+						>
+							malejąco
+						</button>
+						<button
+							type="button"
+							@click="sortProducts('asc')"
+							:class="{ active : sortDirection === 'asc' }"
+						>
+							rosnąco
+						</button>
+					</div>
+					<div>
+						<hr />
+						<template v-if="isNothingSearched">
+							<div class="search-error">
+								Nie znaleziono produktów dla frazy: "{{searchValue}}"
+							</div>
+						</template>
+						<template v-for="product in filteredProducts">
+							<article :class="{ specialproduct: product.special }">
+								<div>
+									<img
+										src="https://via.placeholder.com/350x240"
+										alt="Obrazek"
+									/>
+								</div>
+								<div>
+									<h3>{{product.name}}</h3>
+									<br />
+									<small>Model produktu: <em>{{product.model}}</em></small>
+									<br />
+									<br />
+									<strong>Marka: <span>{{product.brand}}</span></strong>
+									<br />
+									<br />
+									Kolor: <span>{{product.color}}</span
+									><span
+										class="color"
+										v-bind:style="setColor(product.color)"
+									></span>
+								</div>
+								<div>
+									<!-- v-bind:class jeśli product.special === true -->
+									<button
+										:disabled="comparedProducts.length >= 3"
+										@click="addToCompare(product)"
+										class="button"
+										type="button"
+										v-bind:class="{ special: product.special }"
+									>
+										Dodaj do porównania
+									</button>
+									<br />
+									<div>
+										<span>{{product.price.toFixed(2)}} netto</span><br />
+										<span
+											>{{((Math.round(100 * product.price *
+											1.23)/100)).toFixed(2)}} brutto</span
+										>
+									</div>
+								</div>
+							</article>
+							<hr />
+						</template>
+					</div>
+					<template v-if="filterMode === false">
+						<div>
+							<nav class="pagination">
+								<ul>
+									<li :class="{inactive: prevActive === true}">
+										<a @click.prevent="prevPage()" href="">&lAarr;</a>
+									</li>
+									<li v-for="n of pages">
+										<a
+											@click.prevent="pageChange($event)"
+											:href="api.slice(0, -1)+n"
+											:class="{ activepage : pageSelected === n }"
+											>{{n}}</a
+										>
+									</li>
+									<li :class="{inactive: nextActive === true}">
+										<a @click.prevent="nextPage()" href="">&rAarr;</a>
+									</li>
+								</ul>
+							</nav>
 						</div>
-					</form>
-					<hr />
-				</div>
-				<div class="form-field-row form-field-row-variant-2">
-					<span>Sortuj wg. ceny: </span>
-					<button type="button" @click="sortProducts('desc')"
-						:class="{ active : sortDirection === 'desc' }">malejąco</button>
-					<button type="button" @click="sortProducts('asc')"
-						:class="{ active : sortDirection === 'asc' }">rosnąco</button>
-				</div>
-				<div>
-					<hr />
-					<template v-if="isNothingSearched">
-						<div class="search-error">Nie znaleziono produktów dla frazy: "{{searchValue}}"</div>
 					</template>
-					<template v-for="product in filteredProducts">
-						<article :class="{ specialproduct: product.special }">
+				</section>
+				<section v-if="padActivated === 'compare'" class="compare">
+					<h2>Porównywarka</h2>
+					<hr />
+					<div class="loader" v-if="comparedProducts.length === 0">
+						<span
+							>Brak produktów do porównania.<br />Wróć na listę produktów.</span
+						>
+					</div>
+					<div>
+						<article
+							v-for="product of comparedProducts"
+							:class="{specialproduct: product.special}"
+						>
+							<div>
+								<button @click="removeFromCompare(product)" type="button">
+									Usuń z porównania
+								</button>
+							</div>
 							<div>
 								<img src="https://via.placeholder.com/350x240" alt="Obrazek" />
 							</div>
@@ -101,91 +243,30 @@
 								<br />
 								<br />
 								<strong>Marka: <span>{{product.brand}}</span></strong>
-								<br />
-								<br />
-								Kolor: <span>{{product.color}}</span><span class="color"
-									v-bind:style="setColor(product.color)"></span>
 							</div>
 							<div>
-								<!-- v-bind:class jeśli product.special === true -->
-								<button :disabled="comparedProducts.length >= 3" @click="addToCompare(product)"
-									class="button" type="button" v-bind:class="{ special: product.special }">
-									Dodaj do porównania</button>
-								<br />
 								<div>
+									<hr />
 									<span>{{product.price.toFixed(2)}} netto</span><br />
-									<span>{{((Math.round(100 * product.price * 1.23)/100)).toFixed(2)}}
-										brutto</span>
+									<span
+										>{{((Math.round(100 * product.price *
+										1.23)/100)).toFixed(2)}} brutto</span
+									>
+								</div>
+								<div>
+									<hr />
+									<h4>Opis</h4>
+									<p>{{product.description}}</p>
+									<br />
+									<br />
+									<strong>Kolor: <span>{{product.color}}</span></strong>
 								</div>
 							</div>
 						</article>
-						<hr />
-					</template>
-				</div>
-				<template v-if="filterMode === false">
-					<div>
-						<nav class="pagination">
-							<ul>
-								<li :class="{inactive: prevActive === true}">
-									<a @click.prevent="prevPage()" href="">&lAarr;</a>
-								</li>
-								<li v-for="n of pages">
-									<a @click.prevent="pageChange($event)" :href="api.slice(0, -1)+n"
-										:class="{ activepage : pageSelected === n }">{{n}}</a>
-								</li>
-								<li :class="{inactive: nextActive === true}">
-									<a @click.prevent="nextPage()" href="">&rAarr;</a>
-								</li>
-							</ul>
-						</nav>
 					</div>
-				</template>
-			</section>
-			<section v-if="padActivated === 'compare'" class="compare">
-				<h2>Porównywarka</h2>
-				<hr />
-				<div class="loader" v-if="comparedProducts.length === 0"><span>Brak produktów do porównania.<br>Wróć na
-						listę produktów.</span></div>
-				<div>
-					<article v-for="product of comparedProducts" :class="{specialproduct: product.special}">
-						<div>
-							<button @click="removeFromCompare(product)" type="button">Usuń z porównania</button>
-						</div>
-						<div>
-							<img src="https://via.placeholder.com/350x240" alt="Obrazek" />
-						</div>
-						<div>
-							<h3>{{product.name}}</h3>
-							<br />
-							<small>Model produktu: <em>{{product.model}}</em></small>
-							<br />
-							<br />
-							<strong>Marka: <span>{{product.brand}}</span></strong>
-						</div>
-						<div>
-							<div>
-								<hr />
-								<span>{{product.price.toFixed(2)}} netto</span><br />
-								<span>{{((Math.round(100 * product.price * 1.23)/100)).toFixed(2)}}
-									brutto</span>
-							</div>
-							<div>
-								<hr />
-								<h4>Opis</h4>
-								<p>
-									{{product.description}}
-								</p>
-								<br />
-								<br />
-								<strong>Kolor: <span>{{product.color}}</span></strong>
-							</div>
-						</div>
-					</article>
-				</div>
-			</section>
-		</template>
-	</main>
-	<script src="../js/index.js"></script>
-</body>
-
+				</section>
+			</template>
+		</main>
+		<script type="module" src="../js/index.js"></script>
+	</body>
 </html>
